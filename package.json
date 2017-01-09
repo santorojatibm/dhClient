@@ -1,0 +1,20 @@
+{
+	"name": "dhClient",
+	"version": "1.0.0",
+	"description": "DreamHome Client Service",
+        "license": "ISC",
+
+	"dependencies":
+        {
+	  "express": "*",
+          "restler":"*",
+          "body-parser":"*",
+          "request":"*",
+          "mongodb":"*"
+	},
+
+	"engines": { "node": "0.10.*" },
+	"repository": {},
+
+        "scripts": { "start": "node dhclient.js" }
+}
