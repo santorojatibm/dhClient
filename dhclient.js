@@ -65,6 +65,24 @@ helper.dbInit( function(err)
 
 
 //-----------------------------------------------------------------------------
+// fetch/get a client/customer record by clientId (cid)
+//-----------------------------------------------------------------------------
+app.get('/client/:cid', function(req, res) 
+{
+  var retjson = {"RC":_rcOK};       // assume a good json response
+  var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+  var cid = req.params.cid;
+
+  retjson.msg = "cid=" + cid;
+
+  // send the http response message
+  helper.httpJsonResponse(res,statusCode,retjson);
+
+  return;
+});
+
+
+//-----------------------------------------------------------------------------
 // Checks if we are connected to the DB and reports list of all collections           
 //-----------------------------------------------------------------------------
 app.get('/dbConnected', function(req, res)
