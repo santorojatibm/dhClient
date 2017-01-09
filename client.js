@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Name:       dhDatabase Service                                   
+// Name:       dhClient Service                                   
 //                                                                              
 // Purpose:    Microservice                                                     
 //                                                                              
@@ -39,14 +39,7 @@ var _rcUnknown = 99;
 //-----------------------------------------------------------------------------
 // Main code body
 //-----------------------------------------------------------------------------
-//var mongourl = process.env.mongourl;
-//var replaced = mongourl.replace(/%([^%]+)%/g, function(_,n) 
-//{
-//    return process.env[n];
-//})
-//mongourl = replaced;
-
-console.log("DreamHome.dhDatabase service ==> Begin Execution.");
+console.log("DreamHome.dhClient service ==> Begin Execution.");
 
 // wait for DB module to fully initialize and connect to the backend DB
 // we don't want to start the node.js server listening till we know we are fully connected to the DB
@@ -345,7 +338,7 @@ app.get('/echo', function (req, res)
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
   // send the http response message
-  retjson.success = "Echo from DreamHome.dhDatabase service!";
+  retjson.success = "Echo from DreamHome.dhClient service!";
   res.status(statusCode).json(retjson);
   res.end;
 
