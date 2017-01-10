@@ -77,11 +77,12 @@ app.get('/client/:cid', function(req, res)
   var dbQuery = {clientId:cid};     // query used for looking up records in the collection
 
   // fetch records from the collection based on the query desired.
-  cref.find(dbQuery).toArray( function(err, items) 
+  cref.findOne( {'clientId':cid}, function(err, dbData)
   {
-     if(!err)
+     // test for error and be sure we found the data record
+     if(!err && dbData)
      {
-        retjson.items = items;
+        retjson = dbData;
 
         // send the http response message
         helper.httpJsonResponse(res,statusCode,retjson);
