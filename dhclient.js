@@ -71,12 +71,15 @@ app.get('/client/:cid', function(req, res)
 {
   var retjson = {"RC":_rcOK};       // assume a good json response
   var statusCode = 200;             // assume valid http response code=200 (OK, good response)
+
+  // get the clientId (cid) parm that came in on the request
+  // it comes in as a string and MUST be converted to a base10 integer
   var cid = parseInt(req.params.cid, 10);
 
   var cref = helper.crefClient();
 
   var dbQuery = {'clientId':cid};
-console.log('  ... dbQuery ('+dbQuery+')');
+console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
 
   // fetch records from the collection based on the query desired.
   cref.findOne( dbQuery, function(err, dbData)
@@ -85,7 +88,7 @@ console.log('  ... dbQuery ('+dbQuery+')');
      // test for error and be sure we found the data record
      if(!err)
      {
-console.log('GET /client/:'+cid+' dbData('+dbData+')');
+console.log('GET /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
        // set the return json as the record found
        retjson = dbData;
      }
