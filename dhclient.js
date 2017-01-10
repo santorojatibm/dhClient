@@ -71,7 +71,7 @@ app.get('/client/:cid', function(req, res)
 {
   var retjson = {"RC":_rcOK};       // assume a good json response
   var statusCode = 200;             // assume valid http response code=200 (OK, good response)
-  var cid = req.params.cid;
+  var cid = parseInt(req.params.cid, 10);
 
   var cref = helper.crefClient();
 
