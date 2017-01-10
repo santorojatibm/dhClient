@@ -76,7 +76,7 @@ app.get('/client/:cid', function(req, res)
   var cref = helper.crefClient();
 
   // fetch records from the collection based on the query desired.
-  cref.findOne( {clientId:cid}, function(err, dbData)
+  cref.findOne( {'clientId':4000}, function(err, dbData)
   //cref.findOne( {}, function(err, dbData)
   {
      // test for error and be sure we found the data record
