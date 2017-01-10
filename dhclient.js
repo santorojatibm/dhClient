@@ -81,6 +81,8 @@ app.get('/client/:cid', function(req, res)
      // test for error and be sure we found the data record
      if(!err)
      {
+console.log('GET /client/:'+cid+' dbData('+dbData+')');
+       // set the return json as the record found
        retjson = dbData;
      }
      else
