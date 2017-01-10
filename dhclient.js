@@ -74,13 +74,12 @@ app.get('/client/:cid', function(req, res)
   var cid = req.params.cid;
 
   var cref = helper.crefClient();
-  var dbQuery = {clientId:cid};     // query used for looking up records in the collection
 
   // fetch records from the collection based on the query desired.
   cref.findOne( {'clientId':cid}, function(err, dbData)
   {
      // test for error and be sure we found the data record
-     if(!err && dbData)
+     if(!err)
      {
         retjson = dbData;
 
@@ -93,6 +92,7 @@ app.get('/client/:cid', function(req, res)
        var retjson = {"RC":_rcError};   // set RC to error
        var statusCode = 404;            // set http status code to 404 'Not Found'
        retjson.msg = "Cleint record (" + cid + ") not found!";
+       retjson.err = err;
 
        // send the http response message
        helper.httpJsonResponse(res,statusCode,retjson);
