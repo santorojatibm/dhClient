@@ -97,7 +97,7 @@ app.get('/client/:cid', function(req, res)
        console.error('GET /client/:'+cid+' failed to get/read client record ('+cid+') from DB!');
 
        retjson = {};
-       retjson.RC = rcError;
+       retjson.RC = _rcError;
        retjson.error = "Client record("+cid+") not found!";
     
        // set http status code
