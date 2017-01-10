@@ -81,22 +81,22 @@ app.get('/client/:cid', function(req, res)
      // test for error and be sure we found the data record
      if(!err)
      {
-        retjson = dbData;
-
-        // send the http response message
-        helper.httpJsonResponse(res,statusCode,retjson);
+       retjson = dbData;
      }
      else
      { // query failed
-       // send the http response message
-       var retjson = {"RC":_rcError};   // set RC to error
-       var statusCode = 404;            // set http status code to 404 'Not Found'
-       retjson.msg = "Cleint record (" + cid + ") not found!";
-       retjson.err = err;
+       console.log('GET /client/:'+cid+' failed to get/read client record ('+cid+') from DB!');
 
-       // send the http response message
-       helper.httpJsonResponse(res,statusCode,retjson);
+       retjson = {};
+       retjson.RC = rcError;
+       retjson.error = "Client record("+cid+") not found!";
+    
+       // set http status code
+       statusCode = 404;   // 404 not found
      }
+
+     // send the http response message
+     helper.httpJsonResponse(res,statusCode,retjson);
   });
   
   return;
