@@ -76,25 +76,25 @@ app.get('/client/:cid', function(req, res)
   // it comes in as a string and MUST be converted to a base10 integer
   var cid = parseInt(req.params.cid, 10);
 
-  var cref = helper.crefClient();
+  var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
+  var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
 
-  var dbQuery = {'clientId':cid};
-console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
+//console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
 
-  // fetch records from the collection based on the query desired.
+  // fetch the record from the collection based on the query desired.
   cref.findOne( dbQuery, function(err, dbData)
-  //cref.findOne( {}, function(err, dbData)
   {
      // test for error and be sure we found the data record
-     if(!err)
+     if(!err && dbData)
      {
-console.log('GET /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
+//console.log('GET /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
        // set the return json as the record found
        retjson = dbData;
      }
      else
      { // query failed
-       console.log('GET /client/:'+cid+' failed to get/read client record ('+cid+') from DB!');
+       // log an error msg
+       console.error('GET /client/:'+cid+' failed to get/read client record ('+cid+') from DB!');
 
        retjson = {};
        retjson.RC = rcError;
