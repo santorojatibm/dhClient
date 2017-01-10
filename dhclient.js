@@ -84,28 +84,28 @@ app.get('/client/:cid', function(req, res)
   // fetch the record from the collection based on the query desired.
   cref.findOne( dbQuery, function(err, dbData)
   {
-     // test for error and be sure we found the data record
-     if(!err && dbData)
-     {
+    // test for error and be sure we found the data record
+    if(!err && dbData)
+    {
 //console.log('GET /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
-       // set the return json as the record found
-       retjson = dbData;
-     }
-     else
-     { // query failed
-       // log an error msg
-       console.error('GET /client/:'+cid+' failed to get/read client record ('+cid+') from DB!');
+      // set the return json as the record found
+      retjson = dbData;
+    }
+    else
+    { // query failed
+      // log an error msg
+      console.error('GET /client/:'+cid+' failed to get/read client record ('+cid+') from DB!');
 
-       retjson = {};
-       retjson.RC = _rcError;
-       retjson.error = "Client record("+cid+") not found!";
+      retjson = {};
+      retjson.RC = _rcError;
+      retjson.error = "Client record("+cid+") not found!";
     
-       // set http status code
-       statusCode = 404;   // 404 not found
-     }
+      // set http status code
+      statusCode = 404;   // 404 not found
+    }
 
-     // send the http response message
-     helper.httpJsonResponse(res,statusCode,retjson);
+    // send the http response message
+    helper.httpJsonResponse(res,statusCode,retjson);
   });
   
   return;
@@ -124,17 +124,17 @@ app.get('/clients', function (req, res)
   // fetch records from the collection based on the query desired.
   cref.find(dbQuery).toArray( function(err, items) 
   {
-     if(!err)
-     {
-        // send the http response message
-        var retjson = {"RC":_rcOK};      // assume a good json response
-        var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+    if(!err)
+    {
+      // send the http response message
+      var retjson = {"RC":_rcOK};      // assume a good json response
+      var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
-        retjson.items = items;
+      retjson.items = items;
 
-        // send the http response message
-        helper.httpJsonResponse(res,statusCode,retjson);
-     }
+      // send the http response message
+      helper.httpJsonResponse(res,statusCode,retjson);
+    }
   });
 
   return;
