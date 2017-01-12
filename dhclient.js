@@ -183,6 +183,24 @@ app.get('/clients', function (req, res)
 });
 
 //-----------------------------------------------------------------------------
+// Add a client record
+//-----------------------------------------------------------------------------
+app.post('/client/add', function (req, res) 
+{
+//  console.log("app.get(./echo function has been called.");
+
+  var retjson = {"RC":_rcOK};      // assume a good json response
+  var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+
+  // send the http response message
+  retjson.success = "Adding a client record!";
+  res.status(statusCode).json(retjson);
+  res.end;
+
+  return;
+});
+
+//-----------------------------------------------------------------------------
 // Simple echo get method, used to sanity test service
 //-----------------------------------------------------------------------------
 app.get('/echo', function (req, res) 
