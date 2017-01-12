@@ -183,17 +183,31 @@ app.get('/clients', function (req, res)
 });
 
 //-----------------------------------------------------------------------------
-// Add a client record
+// Create a new client customer record
 //-----------------------------------------------------------------------------
-app.post('/client/add', function (req, res) 
+app.put('/client', function (req, res) 
 {
-//  console.log("app.get(./echo function has been called.");
-
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
   // send the http response message
-  retjson.success = "Adding a client record!";
+  retjson.success = "Create a new client record!";
+  res.status(statusCode).json(retjson);
+  res.end;
+
+  return;
+});
+
+//-----------------------------------------------------------------------------
+// Update a client customer record
+//-----------------------------------------------------------------------------
+app.post('/client', function (req, res) 
+{
+  var retjson = {"RC":_rcOK};      // assume a good json response
+  var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+
+  // send the http response message
+  retjson.success = "Update a client record!";
   res.status(statusCode).json(retjson);
   res.end;
 
