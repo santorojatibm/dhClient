@@ -183,9 +183,34 @@ app.get('/clients', function (req, res)
 });
 
 //-----------------------------------------------------------------------------
+// Delete a client customer record
+//-----------------------------------------------------------------------------
+app.delete('/client/:cid', function(req, res) 
+{
+  var retjson = {"RC":_rcOK};       // assume a good json response
+  var statusCode = 200;             // assume valid http response code=200 (OK, good response)
+
+  // get the clientId (cid) parm that came in on the request
+  // it comes in as a string and MUST be converted to a base10 integer
+  var cid = parseInt(req.params.cid, 10);
+
+  var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
+  var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
+
+//console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
+
+  // send the http response message
+  retjson.success = "Delete client record("+cid+").";
+  res.status(statusCode).json(retjson);
+  res.end;
+
+  return;
+});
+
+//-----------------------------------------------------------------------------
 // Create a new client customer record
 //-----------------------------------------------------------------------------
-app.put('/client', function (req, res) 
+app.post('/client', function (req, res) 
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
@@ -201,13 +226,29 @@ app.put('/client', function (req, res)
 //-----------------------------------------------------------------------------
 // Update a client customer record
 //-----------------------------------------------------------------------------
-app.post('/client', function (req, res) 
+app.put('/client', function (req, res) 
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
   // send the http response message
   retjson.success = "Update a client record!";
+  res.status(statusCode).json(retjson);
+  res.end;
+
+  return;
+});
+
+//-----------------------------------------------------------------------------
+// Patch a client customer record
+//-----------------------------------------------------------------------------
+app.patch('/client', function (req, res) 
+{
+  var retjson = {"RC":_rcOK};      // assume a good json response
+  var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+
+  // send the http response message
+  retjson.success = "Patch a client record!";
   res.status(statusCode).json(retjson);
   res.end;
 
