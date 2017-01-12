@@ -37,6 +37,48 @@ var _rcUnknown = 99;
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+// Example dhClient (Customer) json record
+//-----------------------------------------------------------------------------
+/*
+{
+  "_id": "mongo generated",
+  "clientId": 4000,
+  "clientName": 
+  {
+    "clientFN": "Richard",
+    "clientLN": "Hendrix"
+  },
+  "clientInfo": 
+  {
+    "address": "101 Valley Steet",
+    "city": "Glendale",
+    "state": "California",
+    "zip": "91201",
+    "phone": "555-676-8907",
+    "email": "jh@music.com"
+  },
+  "agentId": 1000,
+  "suggestedProperties": 
+  [
+    {
+      "propertyId": 2000,
+      "propertyState": 0,
+      "askingPrice": 320000,
+      "rating": 0,
+      "comments": 
+      [
+        {
+          "comment": "This is a beautiful home"
+        }
+      ]
+    }
+  ],
+  "minAskingPrice": 200000,
+  "maxAskingPrice": 400000
+}
+*/
+
+//-----------------------------------------------------------------------------
 // Main code body
 //-----------------------------------------------------------------------------
 console.log("DreamHome.dhClient service ==> Begin Execution.");
