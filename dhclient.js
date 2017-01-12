@@ -215,12 +215,13 @@ app.post('/client', function (req, res)
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
-  _addClientRecord();
-
-  // send the http response message
-  retjson.success = "Create a new client record!";
-  res.status(statusCode).json(retjson);
-  res.end;
+  _addClientRecord( function()
+  {
+     // send the http response message
+     retjson.success = "Create a new client record!";
+     res.status(statusCode).json(retjson);
+     res.end;
+  });
 
   return;
 });
@@ -283,11 +284,11 @@ app.get('/echo', function (req, res)
 //-----------------------------------------------------------------------------
 // adds a new client record to mongodb
 //-----------------------------------------------------------------------------
-function _addClientRecord()
+function _addClientRecord(callback)
 {
-  var rc = 0;
+  callback();
 
-  return rc;
+  return;
 }
 
 //-----------------------------------------------------------------------------
