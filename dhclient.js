@@ -317,7 +317,8 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
       { 
         if(!err)
         {
-          console.log("Client record "+pkId+" added to Client collection.");
+console.log("Client record "+pkId+" added to Client collection.");
+          result.pkId = pkId; // return the primary key for the record created
           callback(result);
         }
       });
