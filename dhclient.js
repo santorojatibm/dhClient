@@ -311,6 +311,7 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
   {
     // add the unique clientId to the record
     jsonRecord.clientId = pkId;
+console.log("DEBUG2 - " + JSON.stringify(jsonRecord) );
 
     if(!err)
     { // pkId generated 
