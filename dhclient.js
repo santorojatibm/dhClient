@@ -218,12 +218,15 @@ app.post('/client', function (req, res)
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
+console.log("DEBUG1");
   // fetch the client record from the body of the message
   _getReqBody(req, function(clientRecord)
   {
+console.log("DEBUG2 - " + clientRecord );
     // add the client record to the DB
     _addClientRecord( clientRecord, function()
     {
+console.log("DEBUG3");
        // send the http response message
        retjson.success = "Create a new client record (" + clientRecord + ")";
        res.status(statusCode).json(retjson);
