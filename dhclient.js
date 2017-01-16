@@ -247,8 +247,9 @@ app.put('/client', function (req, res)
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+  var clientRecord; 
 
-  _updateClientRecord( function()
+  _updateClientRecord( clientRecord, function()
   {
     // send the http response message
     retjson.success = "Update a client record!";
@@ -266,8 +267,9 @@ app.patch('/client', function (req, res)
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+  var clientRecord; 
 
-  _updateClientRecord( function()
+  _updateClientRecord( clientRecord, function()
   {
     // send the http response message
     retjson.success = "Patch a client record!";
@@ -304,7 +306,7 @@ app.get('/echo', function (req, res)
 //-----------------------------------------------------------------------------
 // adds a new client record to mongodb
 //-----------------------------------------------------------------------------
-function _addClientRecord(callback)
+function _addClientRecord(clientRecord,callback)
 {
   callback();
 
@@ -314,7 +316,7 @@ function _addClientRecord(callback)
 //-----------------------------------------------------------------------------
 // updates an existing client record in mongodb
 //-----------------------------------------------------------------------------
-function _updateClientRecord(callback)
+function _updateClientRecord(clientRecord,callback)
 {
   callback();
 
