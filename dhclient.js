@@ -219,7 +219,7 @@ app.post('/client', function (req, res)
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
   var clientRecord = req.body;
-console.log("DEBUG1 - " + clientRecord);
+console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
 
   // fetch the client record from the body of the message
 //  _getReqBody(req, function(clientRecord)
@@ -231,7 +231,7 @@ console.log("DEBUG1 - " + clientRecord);
     {
 console.log("DEBUG3");
        // send the http response message
-       retjson.success = "Create a new client record (" + clientRecord + ")";
+       retjson.success = "Create a new client record (" + JSON.stringify(clientRecord) + ")";
        res.status(statusCode).json(retjson);
        res.end;
     });
