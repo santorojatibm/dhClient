@@ -217,25 +217,16 @@ app.post('/client', function (req, res)
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
+  var clientRecord = req.body;     // get the request body json data
 
-  var clientRecord = req.body;
-console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
-
-  // fetch the client record from the body of the message
-//  _getReqBody(req, function(clientRecord)
-//  {
-//console.log("DEBUG2 - " + clientRecord );
-
-    // add the client record to the DB
-    _addClientRecord( clientRecord, function()
-    {
-console.log("DEBUG3");
-       // send the http response message
-       retjson.success = "Create a new client record (" + JSON.stringify(clientRecord) + ")";
-       res.status(statusCode).json(retjson);
-       res.end;
-    });
-//  });
+  // add the client record to the DB
+  _addClientRecord( clientRecord, function()
+  {
+     // send the http response message
+     retjson.success = "Create a new client record (" + JSON.stringify(clientRecord) + ")";
+     res.status(statusCode).json(retjson);
+     res.end;
+  });
 
   return;
 });
@@ -247,7 +238,7 @@ app.put('/client', function (req, res)
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
-  var clientRecord; 
+  var clientRecord = req.body;     // get the request body json data
 
   _updateClientRecord( clientRecord, function()
   {
@@ -267,7 +258,7 @@ app.patch('/client', function (req, res)
 {
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
-  var clientRecord; 
+  var clientRecord = req.body;     // get the request body json data
 
   _updateClientRecord( clientRecord, function()
   {
@@ -308,6 +299,8 @@ app.get('/echo', function (req, res)
 //-----------------------------------------------------------------------------
 function _addClientRecord(clientRecord,callback)
 {
+console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
+
   callback();
 
   return;
@@ -318,6 +311,8 @@ function _addClientRecord(clientRecord,callback)
 //-----------------------------------------------------------------------------
 function _updateClientRecord(clientRecord,callback)
 {
+console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
+
   callback();
 
   return;
