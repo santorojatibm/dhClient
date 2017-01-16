@@ -323,15 +323,15 @@ function _updateClientRecord(callback)
 //-----------------------------------------------------------------------------
 function _getReqBody(req,callback)
 {
-console.log("DEBUG1.1);
+console.log("DEBUG1.1");
   var body = [];
   req.on('data', function(chunk) 
   {
-console.log("DEBUG1.2);
+console.log("DEBUG1.2");
     body.push(chunk);
   }).on('end', function() 
   {
-console.log("DEBUG1.3);
+console.log("DEBUG1.3");
     body = Buffer.concat(body).toString();
     callback(body);
   });
