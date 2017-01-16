@@ -321,18 +321,19 @@ function _updateClientRecord(callback)
 //-----------------------------------------------------------------------------
 // reads the request body data
 //-----------------------------------------------------------------------------
-function _getReqBody(req,callback(body))
+function _getReqBody(req,callback)
 {
+console.log("DEBUG1.1);
   var body = [];
   req.on('data', function(chunk) 
   {
+console.log("DEBUG1.2);
     body.push(chunk);
   }).on('end', function() 
   {
+console.log("DEBUG1.3);
     body = Buffer.concat(body).toString();
     callback(body);
   });
-
-  return;
 }
 
