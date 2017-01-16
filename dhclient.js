@@ -321,7 +321,7 @@ function _updateClientRecord(callback)
 //-----------------------------------------------------------------------------
 // reads the request body data
 //-----------------------------------------------------------------------------
-function _getReqBody(req,callback)
+function _getReqBody(req,callback(body))
 {
   var body = [];
   req.on('data', function(chunk) 
