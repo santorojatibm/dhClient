@@ -309,6 +309,9 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
   helper.genClientId(
   function(err, pkId)
   {
+    // add the unique clientId to the record
+    jsonRecord.clientId = pkId;
+
     if(!err)
     { // pkId generated 
       // add the record to the DB clientCollection
