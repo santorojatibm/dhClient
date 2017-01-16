@@ -218,11 +218,14 @@ app.post('/client', function (req, res)
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
-console.log("DEBUG1");
+  var clientRecord = req.body;
+console.log("DEBUG1 - " + clientRecord);
+
   // fetch the client record from the body of the message
-  _getReqBody(req, function(clientRecord)
-  {
-console.log("DEBUG2 - " + clientRecord );
+//  _getReqBody(req, function(clientRecord)
+//  {
+//console.log("DEBUG2 - " + clientRecord );
+
     // add the client record to the DB
     _addClientRecord( clientRecord, function()
     {
@@ -232,7 +235,7 @@ console.log("DEBUG3");
        res.status(statusCode).json(retjson);
        res.end;
     });
-  });
+//  });
 
   return;
 });
