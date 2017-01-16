@@ -220,10 +220,10 @@ app.post('/client', function (req, res)
   var clientRecord = req.body;     // get the request body json data
 
   // add the client record to the DB
-  _addClientRecord( clientRecord, function()
+  _addClientRecord( clientRecord, function(result)
   {
      // send the http response message
-     retjson.success = "Create a new client record (" + JSON.stringify(clientRecord) + ")";
+     retjson.success = "Create a new client record (" + JSON.stringify(result) + ")";
      res.status(statusCode).json(retjson);
      res.end;
   });
@@ -297,11 +297,32 @@ app.get('/echo', function (req, res)
 //-----------------------------------------------------------------------------
 // adds a new client record to mongodb
 //-----------------------------------------------------------------------------
-function _addClientRecord(clientRecord,callback)
+function _addClientRecord(jsonRecord,callback)
 {
-console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
+console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 
-  callback();
+  // get refrence handle to the Client collection
+  var cref = helper.crefClient();
+
+  // create and add the first client record to the Client collection.
+  // generate a unique Client Id key for this real-estate client record
+  helper.genClientId(
+  function(err, pkId)
+  {
+    if(!err)
+    { // pkId generated 
+      // add the record to the DB clientCollection
+      cref.insertOne( jsonRecord, {w:1, j:true},
+      function(err,result)
+      { 
+        if(!err)
+        {
+          console.log("Client record "+pkId+" added to Client collection.");
+          callback(result);
+        }
+      });
+    }
+  });
 
   return;
 }
