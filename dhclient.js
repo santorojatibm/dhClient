@@ -41,6 +41,7 @@ var _rcUnknown = 99;
 //-----------------------------------------------------------------------------
 /*
 {
+  // required fields
   "_id": "mongo generated",
   "clientId": 4000,
   "clientName": 
@@ -57,6 +58,8 @@ var _rcUnknown = 99;
     "phone": "555-676-8907",
     "email": "jh@music.com"
   },
+
+  // optional fields
   "agentId": 1000,
   "suggestedProperties": 
   [
@@ -215,12 +218,17 @@ app.post('/client', function (req, res)
   var retjson = {"RC":_rcOK};      // assume a good json response
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
 
-  _addClientRecord( function()
+  // fetch the client record from the body of the message
+  _getReqBody(req, function(clientRecord)
   {
-     // send the http response message
-     retjson.success = "Create a new client record!";
-     res.status(statusCode).json(retjson);
-     res.end;
+    // add the client record to the DB
+    _addClientRecord( clientRecord, function()
+    {
+       // send the http response message
+       retjson.success = "Create a new client record (" + clientRecord + ")";
+       res.status(statusCode).json(retjson);
+       res.end;
+    });
   });
 
   return;
@@ -307,4 +315,21 @@ function _updateClientRecord(callback)
   return;
 }
 
+//-----------------------------------------------------------------------------
+// reads the request body data
+//-----------------------------------------------------------------------------
+function _getReqBody(req,callback)
+{
+  var body = [];
+  req.on('data', function(chunk) 
+  {
+    body.push(chunk);
+  }).on('end', function() 
+  {
+    body = Buffer.concat(body).toString();
+    callback(body);
+  });
+
+  return;
+}
 
