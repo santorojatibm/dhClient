@@ -1,8 +1,8 @@
 ---
-buildName: "dhcient"
+buildName: "dhclient"
 links:
   Git: "https://github.com/scarceller/dhClient.git"
-  Job: "http://jenkins.fabric8.oscp.cpo.com/job/dhcient"
+  Job: "http://jenkins.fabric8.oscp.cpo.com/job/dhclient"
   Production: "http://172.30.79.120:80/kubernetes/pods?namespace=fabric8-production"
   Staging: "http://172.30.79.120:80/kubernetes/pods?namespace=fabric8-staging"
 environments:
