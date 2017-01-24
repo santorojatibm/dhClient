@@ -3,7 +3,7 @@ buildName: "dhclient"
 links:
   Git: "https://github.com/santorojatibm/dhClient.git"
   Job: "http://jenkins.fabric8js.oscp.cpo.com/job/dhclient"
-  Staging: "http://172.30.227.152:80/kubernetes/pods?namespace=fabric8js-staging"
+  Staging: "http://172.30.165.48:80/kubernetes/pods?namespace=fabric8js-staging"
 environments:
   Staging: "fabric8js-staging"
 useLocalFlow: true
