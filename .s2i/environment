@@ -1,4 +1,5 @@
-mongourl=mongodb://169.45.196.58:27017/dhOpenShift
+mongourl=mongoDB://cpoUser:enitlavo908#@158.85.248.111:8888/dhOpenShift
+mongourl1=mongodb://169.45.196.58:27017/dhOpenShift
 mongourl2=mongodb://root:Jan44Feb!@172.30.198.134:27017/dreamhome
 MONGODB_USER=root
 MONGODB_PASSWORD=Jan44Feb!

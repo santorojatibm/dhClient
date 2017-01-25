@@ -41,9 +41,11 @@ var _rcUnknown = 99;
 //-----------------------------------------------------------------------------
 /*
 {
-  // required fields
+  // Auto generated fields, when creating a record do not pass these in 
   "_id": "mongo generated",
-  "clientId": 4000,
+  "clientId": "auto generated", 
+
+  // required fields
   "clientName": 
   {
     "clientFN": "Richard",
