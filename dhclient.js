@@ -225,7 +225,8 @@ app.post('/client', function (req, res)
   _addClientRecord( clientRecord, function(result)
   {
      // send the http response message
-     retjson.success = "Created a new client record (" + JSON.stringify(result) + ")";
+     retjson.data = result; // put the record added in the reply
+     retjson.success = "Created a new client record.";
      res.status(statusCode).json(retjson);
      res.end;
   });
