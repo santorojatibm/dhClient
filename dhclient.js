@@ -225,7 +225,7 @@ app.post('/client', function (req, res)
   _addClientRecord( clientRecord, function(result)
   {
      // send the http response message
-     retjson.success = "Create a new client record (" + JSON.stringify(result) + ")";
+     retjson.success = "Created a new client record (" + JSON.stringify(result) + ")";
      res.status(statusCode).json(retjson);
      res.end;
   });
@@ -324,8 +324,8 @@ console.log("DEBUG2 - " + JSON.stringify(jsonRecord) );
         if(!err)
         {
 console.log("Client record "+pkId+" added to Client collection.");
-          result.pkId = pkId; // return the primary key for the record created
-          callback(result);
+          //result.pkId = pkId; // return the primary key for the record created
+          callback(jsonRecord);
         }
       });
     }
