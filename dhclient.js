@@ -14,7 +14,7 @@ var express      = require('express');
 var bodyParser   = require('body-parser');
 var request      = require('request');
 var mongoClient  = require('mongodb').MongoClient;
-var helper       = require('./dhCommon/helpers'); // include helper functions from helpers.js
+var helper       = require('./helpers'); // include helper functions from helpers.js
 
 //-----------------------------------------------------------------------------
 // Set up express                                    
@@ -26,7 +26,7 @@ app.use(bodyParser.json()); // for parsing application/json
 
 // what host and port should we listen on?
 //var _host = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';  // host to listen on
-var _port = process.env.OPENSHIFT_NODEJS_PORT || 8080;       // port to listen on
+var _port = process.env.OPENSHIFT_NODEJS_PORT || 8081;       // port to listen on
 
 //-----------------------------------------------------------------------------
 // return code definitions, used in json responses {"RC": _rcOK}  
