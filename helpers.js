@@ -17,7 +17,14 @@ var _mongoClient       = require('mongodb').MongoClient;
 //------------------------------------------------------------------------------ 
 // define mongoDB related information
 // define the DB connection url, check for env var 'mongourl'
-var _mongoURL          = process.env.mongourl || "mongodb://169.45.196.58:27017/dhOpenShift";
+var _mongoURL          = process.env.mongourl || "mongoDB://cpoUser:enitlavo908#@158.85.248.111:8888/dhDatabase";
+
+// these next variables are used when creating destroying a DB, only used by dhDatabase service!
+// only used if we connect to the .../admin DB, only dhDatabase service ever connects to admin DB.
+var _dbTargetName  = process.env.MONGODB_DATABASE || "dhDatabase";   // the name of the desired DB
+var _dbTargetUser  = process.env.MONGODB_USER     || "cpoUser";      // userid for the desired DB
+var _dbTargetPswd  = process.env.MONGODB_PASSWORD || "enitlavo908#"; // password for the desired DB
+
 // define the collection names within the DB
 var _cnameCounter      = "dhCounterColl";       // name of the counter collection.
 var _cnameClient       = "dhClientColl";        // name of the client collection.
@@ -36,6 +43,7 @@ var _pknNotificationId = "notificationId";
 // global handles/refrences to the mongoDB and it's collections
 var _dbConnectedInd = false; // indicates if we are connected to the DB, initialized to false
 var _dbref;                  // refrence to the mongoDB connection
+var _dbName;                 // the name of the db we are currently using
 var _crefCounter;            // _cref are refrences to collections
 var _crefClient;             // ...
 var _crefAgent;              // ...
@@ -52,8 +60,9 @@ module.exports =
   // Public helper functions start here.
   //------------------------------------------------------------------------------
   dburl:            function () { return _mongoURL;         },
-  // export db refrence as well as dbConnected indicator
+  // export db refrence, db name and dbConnected indicator
   dbref:            function () { return _dbref;            }, 
+  dbName:           function () { return _dbName;           }, 
   dbConnected:      function () { return _dbConnectedInd;   },  
   // export getters for all collection refrences
   crefCounter:      function () { return _crefCounter;      },
@@ -144,27 +153,65 @@ function _dbInit(callback)
     {
       if(!err)
       { // connected!
-        // save the refrence to the db
-        _dbref             = database;
-        // fetch refrences for all collection
-        _crefCounter       = _dbref.collection(_cnameCounter); 
-        _crefClient        = _dbref.collection(_cnameClient); 
-        _crefAgent         = _dbref.collection(_cnameAgent); 
-        _crefProperty      = _dbref.collection(_cnameProperty); 
-        _crefOffice        = _dbref.collection(_cnameOffice); 
-        _crefNotification  = _dbref.collection(_cnameNotification); 
-   
-        // set/mark us as now connected to the DB 
-        _dbConnectedInd = true;    
+        console.log("  ... initial mongourl used to connect to the DB (" + _mongoURL + ")");
 
-        console.log("  ... connected to the DB successfully! " + _mongoURL);
-        callback();
+        // test if we just connected to the 'admin' DB
+        // we only connect to admin db from dhDatabase service, admin db required if we are creating a new DB
+        // fetch the db stats
+        database.stats( function(err, stats) 
+        {
+          // get the db name from the db stats
+          var dbName = stats.db;
+          if(dbName == 'admin')
+          { // we are in the 'admin' DB!
+            console.log("  ... we have connected to the admin DB, switching to the target DB (" + _dbTargetName + ") now!");
+
+            // switch to the desired target database
+            _dbref  = database.db(_dbTargetName);
+            _dbName = _dbTargetName;
+
+            // insure that userid/password exists for the target DB
+            // we can do this async, we do not need to wait for the callback to continue.
+            // we will assume the user will be added corectly or already exists.
+            _dbref.addUser(_dbTargetUser, _dbTargetPswd, {roles:['dbOwner']}, function(err, result) 
+            {
+               if(err)
+               {
+                  console.log("  ... WARNING creating db user (" + _dbTargetUser + ") in target database failed, error details -> " + JSON.stringify(err) );
+               }
+               else
+               {
+                  console.log("  ... creating db user (" + _dbTargetUser + ") in target database successfull.");
+               }
+            });
+          }
+          else
+          { // not in the 'admin' DB
+            // save the refrence to the db
+            _dbref  = database;
+            _dbName = dbName;
+          }
+
+          // fetch refrences for all collection
+          _crefCounter       = _dbref.collection(_cnameCounter); 
+          _crefClient        = _dbref.collection(_cnameClient); 
+          _crefAgent         = _dbref.collection(_cnameAgent); 
+          _crefProperty      = _dbref.collection(_cnameProperty); 
+          _crefOffice        = _dbref.collection(_cnameOffice); 
+          _crefNotification  = _dbref.collection(_cnameNotification); 
+
+          // set/mark us as now connected to the DB 
+          _dbConnectedInd = true;    
+
+          console.log("  ... connected to target DB (" + _dbName + ") successfully! ");
+          callback();
+        });
       }
       else
       { // error occured while establishing connectivity to the DB
         _dbConnectedInd = false;   // mark us as not connected to the DB
 
-        console.log("  ... ERROR: failure connecting to the DB!");
+        console.log( "  ... ERROR: failure connecting to the DB! dbURL(" + _mongoURL + ")" );
         callback(err);
       }
     }); 
