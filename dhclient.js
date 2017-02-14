@@ -204,10 +204,32 @@ app.delete('/client/:cid', function(req, res)
 
 //console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
 
-  // send the http response message
-  retjson.success = "Delete client record("+cid+").";
-  res.status(statusCode).json(retjson);
-  res.end;
+  // fetch the record from the collection based on the query desired.
+  cref.deleteOne( dbQuery, function(err, dbData)
+  {
+     // test for error and be sure we found the data record
+     if(!err && dbData)
+     {
+ //console.log('GET /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
+       // set the return json as the record found
+       retjson = dbData;
+     }
+     else
+     { // query failed
+       // log an error msg
+       console.error('DELETE /client/:'+cid+' failed to delete client record ('+cid+') from DB!');
+
+       retjson = {};
+       retjson.RC = _rcError;
+       retjson.error = "Client record("+cid+") not found!";
+
+       // set http status code
+       statusCode = 404;   // 404 not found
+     }
+
+     // send the http response message
+     helper.httpJsonResponse(res,statusCode,retjson);
+  });
 
   return;
 });
