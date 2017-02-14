@@ -204,8 +204,9 @@ app.delete('/client/:cid', function(req, res)
 
 //console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
 
-  // fetch the record from the collection based on the query desired.
-  cref.deleteOne( dbQuery, function(err, dbData)
+  // delete a record from the collection based on the query desired.
+  // returns the record deleted.
+  cref.findOneAndDelete( dbQuery, function(err, dbData)
   {
      // test for error and be sure we found the data record
      if(!err && dbData)
