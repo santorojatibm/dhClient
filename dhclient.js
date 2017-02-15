@@ -220,7 +220,7 @@ console.log('DELETE /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
 
          retjson = {};
          retjson.RC = _rcError;
-         retjson.error = "Client record("+cid+") not found!";
+         retjson.error = "M2 Client record("+cid+") not found!";
 
          // set http status code
          statusCode = 404;   // 404 not found
@@ -242,7 +242,7 @@ console.log('DELETE /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
 
        retjson = {};
        retjson.RC = _rcError;
-       retjson.error = "Client record("+cid+") not found!";
+       retjson.error = "M1 Client record("+cid+") not found!";
 
        // set http status code
        statusCode = 404;   // 404 not found
