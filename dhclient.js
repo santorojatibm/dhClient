@@ -211,7 +211,13 @@ app.delete('/client/:cid', function(req, res)
      // test for error and be sure we found the data record
      if(!err && dbData)
      {
- //console.log('GET /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
+console.log('DELETE /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
+       if( dbData.lastErrorObject.n == 1 )
+       { // one record deleted!
+         retjson.RC = _rcOK;
+         retjson.success = 'Deleted client record (' + cid + ')!';
+       }
+
        // set the return json as the record found
        retjson = dbData;
      }
