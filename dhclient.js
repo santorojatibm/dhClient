@@ -192,8 +192,8 @@ app.get('/clients', function (req, res)
 //-----------------------------------------------------------------------------
 app.delete('/client/:cid', function(req, res) 
 {
-  var retjson = {"RC":_rcOK};       // assume a good json response
-  var statusCode = 200;             // assume valid http response code=200 (OK, good response)
+  var retjson = {"RC":_rcError};    // assume a error json response, assume delete failed
+  var statusCode = 404;             // assume delete will fail, 404 record not found.
 
   // get the clientId (cid) parm that came in on the request
   // it comes in as a string and MUST be converted to a base10 integer
@@ -202,8 +202,6 @@ app.delete('/client/:cid', function(req, res)
   var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
   var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
 
-//console.log('  ... dbQuery ('+JSON.stringify(dbQuery)+')');
-
   // delete a record from the collection based on the query desired.
   // returns the record deleted.
   cref.findOneAndDelete( dbQuery, function(err, dbData)
@@ -211,38 +209,33 @@ app.delete('/client/:cid', function(req, res)
      // test for error and be sure we found the data record
      if(!err && dbData)
      {
-console.log('DELETE /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
 
-       if( dbData.value == null )
-       { // record not found!
-         // log an error msg
-         console.error('DELETE /client/:'+cid+' failed to delete client record ('+cid+') from DB!');
+       if( dbData.value != null )
+       { // record found and the record is now deleted!
 
-         retjson = {};
-         retjson.RC = _rcError;
-         retjson.error = "M2 Client record("+cid+") not found!";
-
-         // set http status code
-         statusCode = 404;   // 404 not found
-       }
-       else
-       { // one record deleted!
          // set the return json as the record found
          retjson = dbData;
 
          retjson.RC = _rcOK;
          retjson.success = 'Deleted client record (' + cid + ')!';
+
+console.log('DELETE /client/:'+cid+' retjson('+JSON.stringify(retjson)+')');
+
+         // set http status code
+         statusCode = 200;   // 200 status OK, good response
        }
 
      }
-     else
-     { // query failed
+
+     // test if record delete failed, if statusCode != 200 then record delete failed.
+     if( statusCode != 200 )
+     { // delete failed
        // log an error msg
        console.error('DELETE /client/:'+cid+' failed to delete client record ('+cid+') from DB!');
 
        retjson = {};
        retjson.RC = _rcError;
-       retjson.error = "M1 Client record("+cid+") not found!";
+       retjson.error = "Client record("+cid+") not deleted, possibly record not found!";
 
        // set http status code
        statusCode = 404;   // 404 not found
