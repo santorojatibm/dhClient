@@ -212,14 +212,28 @@ app.delete('/client/:cid', function(req, res)
      if(!err && dbData)
      {
 console.log('DELETE /client/:'+cid+' dbData('+JSON.stringify(dbData)+')');
-       if( dbData.lastErrorObject.n == 1 )
+
+       if( dbData.value == null )
+       { // record not found!
+         // log an error msg
+         console.error('DELETE /client/:'+cid+' failed to delete client record ('+cid+') from DB!');
+
+         retjson = {};
+         retjson.RC = _rcError;
+         retjson.error = "Client record("+cid+") not found!";
+
+         // set http status code
+         statusCode = 404;   // 404 not found
+       }
+       else
        { // one record deleted!
+         // set the return json as the record found
+         retjson = dbData;
+
          retjson.RC = _rcOK;
          retjson.success = 'Deleted client record (' + cid + ')!';
        }
 
-       // set the return json as the record found
-       retjson = dbData;
      }
      else
      { // query failed
