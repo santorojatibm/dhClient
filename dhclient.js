@@ -384,7 +384,11 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
   var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
 
   // update the record
-  cref.findAndModify( dbQuery, jsonRecord, {w:1, j:true},
+  cref.findOneAndUpdate( dbQuery, {$set: jsonRecord}, 
+        {
+          returnOriginal: false
+          , upsert: false
+        },
   function(err,result)
   { 
     if(!err)
