@@ -340,7 +340,7 @@ app.get('/echo', function (req, res)
 //-----------------------------------------------------------------------------
 function _addClientRecord(jsonRecord,callback)
 {
-console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
+//console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 
   // get refrence handle to the Client collection
   var cref = helper.crefClient();
@@ -375,7 +375,7 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 //-----------------------------------------------------------------------------
 // updates an existing client record in mongodb
 //-----------------------------------------------------------------------------
-function _updateClientRecord(clientRecord,callback)
+function _updateClientRecord(jsonRecord,callback)
 {
 console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
 
