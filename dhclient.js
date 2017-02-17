@@ -219,7 +219,7 @@ app.delete('/client/:cid', function(req, res)
          retjson.RC = _rcOK;
          retjson.success = 'Deleted client record (' + cid + ')!';
 
-console.log('DELETE /client/:'+cid+' retjson('+JSON.stringify(retjson)+')');
+//console.log('DELETE /client/:'+cid+' retjson('+JSON.stringify(retjson)+')');
 
          // set http status code
          statusCode = 200;   // 200 status OK, good response
@@ -279,10 +279,12 @@ app.put('/client', function (req, res)
   var statusCode = 200;            // assume valid http response code=200 (OK, good response)
   var clientRecord = req.body;     // get the request body json data
 
-  _updateClientRecord( clientRecord, function()
+  _updateClientRecord( clientRecord, function(result)
   {
     // send the http response message
+    retjson.data = result; // put the record added in the reply
     retjson.success = "Update a client record!";
+    retjson.success = "Updated client record.";
     res.status(statusCode).json(retjson);
     res.end;
   });
@@ -350,7 +352,7 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
   {
     // add the unique clientId to the record
     jsonRecord.clientId = pkId;
-console.log("DEBUG2 - " + JSON.stringify(jsonRecord) );
+//console.log("DEBUG2 - " + JSON.stringify(jsonRecord) );
 
     if(!err)
     { // pkId generated 
@@ -360,9 +362,8 @@ console.log("DEBUG2 - " + JSON.stringify(jsonRecord) );
       { 
         if(!err)
         {
-console.log("Client record "+pkId+" added to Client collection.");
-          //result.pkId = pkId; // return the primary key for the record created
-          callback(jsonRecord);
+//console.log("Client record "+pkId+" added to Client collection.");
+          callback(jsonRecord); // return the full record added
         }
       });
     }
@@ -378,7 +379,20 @@ function _updateClientRecord(clientRecord,callback)
 {
 console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
 
-  callback();
+  var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
+  var cid = clientRecord.clientId;  // get the clientId from the record
+  var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
+
+  // update the record
+  cref.findAndModify( dbQuery, jsonRecord, {w:1, j:true},
+  function(err,result)
+  { 
+    if(!err)
+    {
+console.log("Client record "+cid+" updated in the Client collection.");
+      callback(result); // return the full record added
+    }
+  });
 
   return;
 }
