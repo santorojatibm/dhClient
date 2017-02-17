@@ -393,13 +393,14 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
   { 
     if(!err)
     {
-console.log("Client record "+cid+" updated in the Client collection.");
+      var data = result.value;
+//console.log("Client record "+cid+" updated in the Client collection.");
       callback(result.value); // return the full record added
     }
     else
     {
 console.log("ERROR: Client record "+cid+" not updated Client collection." + JSON.stringify(err) );
-      callback(result); // return the full record added
+      callback(err); // return the full record added
     }
   });
 
