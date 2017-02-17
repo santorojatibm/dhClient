@@ -377,10 +377,10 @@ function _addClientRecord(jsonRecord,callback)
 //-----------------------------------------------------------------------------
 function _updateClientRecord(jsonRecord,callback)
 {
-console.log("DEBUG1 - " + JSON.stringify(clientRecord) );
+console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 
   var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
-  var cid = clientRecord.clientId;  // get the clientId from the record
+  var cid = jsonRecord.clientId;  // get the clientId from the record
   var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
 
   // update the record
