@@ -392,6 +392,11 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 console.log("Client record "+cid+" updated in the Client collection.");
       callback(result); // return the full record added
     }
+    else
+    {
+console.log("ERROR: Client record "+cid+" not updated Client collection.");
+      callback(result); // return the full record added
+    }
   });
 
   return;
