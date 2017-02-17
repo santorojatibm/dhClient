@@ -394,7 +394,7 @@ console.log("Client record "+cid+" updated in the Client collection.");
     }
     else
     {
-console.log("ERROR: Client record "+cid+" not updated Client collection.");
+console.log("ERROR: Client record "+cid+" not updated Client collection." + JSON.stringify(err) );
       callback(result); // return the full record added
     }
   });
