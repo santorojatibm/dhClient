@@ -275,18 +275,28 @@ app.post('/client', function (req, res)
 //-----------------------------------------------------------------------------
 app.put('/client', function (req, res) 
 {
-  var retjson = {"RC":_rcOK};      // assume a good json response
-  var statusCode = 200;            // assume valid http response code=200 (OK, good response)
-  var clientRecord = req.body;     // get the request body json data
+  var retjson = {"RC":_rcError};    // assume a error json response, assume delete failed
+  var statusCode = 404;             // assume delete will fail, 404 record not found.
+  var clientRecord = req.body;      // get the request body json data
+  retjson.error = "Client record(" + clientRecord.clientId + ") not deleted, possibly record not found!";
 
-  _updateClientRecord( clientRecord, function(result)
+  _updateClientRecord( clientRecord, function(updatedRecord)
   {
+    if( updatedRecord != null )
+    { // record found and the record was updated!
+
+      // set the return json .data as the record found
+      retjson.data = updatedRecord;
+
+      retjson.RC = _rcOK;
+      retjson.success = 'Client record (' + updatedRecord.clientId + ') has been updated!';
+
+      // set http status code
+      statusCode = 200;   // 200 status OK, good response
+    }
+
     // send the http response message
-    retjson.data = result; // put the record added in the reply
-    retjson.success = "Update a client record!";
-    retjson.success = "Updated client record.";
-    res.status(statusCode).json(retjson);
-    res.end;
+    helper.httpJsonResponse(res,statusCode,retjson);
   });
 
   return;
@@ -297,17 +307,6 @@ app.put('/client', function (req, res)
 //-----------------------------------------------------------------------------
 app.patch('/client', function (req, res) 
 {
-  var retjson = {"RC":_rcOK};      // assume a good json response
-  var statusCode = 200;            // assume valid http response code=200 (OK, good response)
-  var clientRecord = req.body;     // get the request body json data
-
-  _updateClientRecord( clientRecord, function()
-  {
-    // send the http response message
-    retjson.success = "Patch a client record!";
-    res.status(statusCode).json(retjson);
-    res.end;
-  });
 
   return;
 });
@@ -380,7 +379,7 @@ function _updateClientRecord(jsonRecord,callback)
 console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 
   var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
-  var cid = jsonRecord.clientId;  // get the clientId from the record
+  var cid = jsonRecord.clientId;    // get the clientId from the record
   var dbQuery = {'clientId':cid};   // setup the query for locating the client record by cid
 
   // update the record
@@ -391,17 +390,14 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
         },
   function(err,result)
   { 
+    var updatedRecord = null; // assume record will not be updated successfully, assume error 
+
     if(!err)
-    {
-      var data = result.value;
-//console.log("Client record "+cid+" updated in the Client collection.");
-      callback(result.value); // return the full record added
+    { // no error
+      var updatedRecord = result.value; // get the updated record, will be null if record not found!
     }
-    else
-    {
-console.log("ERROR: Client record "+cid+" not updated Client collection." + JSON.stringify(err) );
-      callback(err); // return the full record added
-    }
+
+    callback(updatedRecord); // return the updated record, will return null if record not updated or not found
   });
 
   return;
