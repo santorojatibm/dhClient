@@ -290,7 +290,7 @@ app.put('/client', function (req, res)
 
       retjson.RC = _rcOK;
       retjson.success = 'Client record (' + updatedRecord.clientId + ') has been updated!';
-      retjson.error = null; // since record has been updated we have no error
+      retjson.error = ''; // since record has been updated we have no error
 
       // set http status code
       statusCode = 200;   // 200 status OK, good response
