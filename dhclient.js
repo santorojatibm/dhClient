@@ -295,6 +295,7 @@ app.put('/client', function (req, res)
     else
     { // ERROR: record could not be updated
       retjson.error = "Client record(" + clientRecord.clientId + ") not updated, possibly record not found!";
+      console.error('PUT /client : ' + retjson.error);
     }
 
     // send the http response message
@@ -329,6 +330,7 @@ app.patch('/client', function (req, res)
     else
     { // ERROR: record could not be updated
       retjson.error = "Client record(" + clientRecord.clientId + ") not updated, possibly record not found!";
+      console.error('PATCH /client : ' + retjson.error);
     }
 
     // send the http response message
@@ -404,7 +406,7 @@ function _addClientRecord(jsonRecord,callback)
 //-----------------------------------------------------------------------------
 function _updateClientRecord(jsonRecord,callback)
 {
-console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
+//console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 
   var cref = helper.crefClient();   // obtain the dhClient collection handle/refrence
   var cid = jsonRecord.clientId;    // get the clientId from the record
@@ -434,19 +436,19 @@ console.log("DEBUG1 - " + JSON.stringify(jsonRecord) );
 //-----------------------------------------------------------------------------
 // reads the request body data
 //-----------------------------------------------------------------------------
-function _getReqBody(req,callback)
-{
-console.log("DEBUG1.1");
-  var body = [];
-  req.on('data', function(chunk) 
-  {
-console.log("DEBUG1.2");
-    body.push(chunk);
-  }).on('end', function() 
-  {
-console.log("DEBUG1.3");
-    body = Buffer.concat(body).toString();
-    callback(body);
-  });
-}
+//function _getReqBody(req,callback)
+//{
+//console.log("DEBUG1.1");
+//  var body = [];
+//  req.on('data', function(chunk) 
+//  {
+//console.log("DEBUG1.2");
+//    body.push(chunk);
+//  }).on('end', function() 
+//  {
+//console.log("DEBUG1.3");
+//    body = Buffer.concat(body).toString();
+//    callback(body);
+//  });
+//}
 
