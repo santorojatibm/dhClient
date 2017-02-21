@@ -275,16 +275,14 @@ app.post('/client', function (req, res)
 //-----------------------------------------------------------------------------
 app.put('/client', function (req, res) 
 {
-  var retjson = {"RC":_rcError};    // assume a error json response, assume delete failed
-  var statusCode = 404;             // assume delete will fail, 404 record not found.
+  var retjson = {"RC":_rcError};    // assume an error json response, assume update failed
+  var statusCode = 404;             // assume update will fail, 404 record not found.
   var clientRecord = req.body;      // get the request body json data
-  retjson.error = "Client record(" + clientRecord.clientId + ") not updated, possibly record not found!";
 
   _updateClientRecord( clientRecord, function(updatedRecord)
   {
     if( updatedRecord != null )
     { // record found and the record was updated!
-
       // set the return json .data as the record found
       retjson.data = updatedRecord;
 
@@ -294,6 +292,10 @@ app.put('/client', function (req, res)
 
       // set http status code
       statusCode = 200;   // 200 status OK, good response
+    }
+    else
+    {
+      retjson.error = "Client record(" + clientRecord.clientId + ") not updated, possibly record not found!";
     }
 
     // send the http response message
